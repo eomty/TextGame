@@ -151,10 +151,12 @@ namespace TextGame
             int randValue = rand.Next(1, 101);
             if (randValue <= 66)
             {
+                Console.WriteLine("도망치지 못하였습니다. 강제 전투 진행");
                 Fight();
             }
             else
             {
+                Console.WriteLine("도망쳤습니다.");
                 gm = GameProcess.Town;
             }
         }
