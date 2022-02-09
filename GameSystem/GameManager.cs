@@ -4,28 +4,36 @@ using System.Text;
 
 namespace TextGame
 {
-    enum GameMode
+    public enum GameProcess
     {
-        None=0,
-        Lobby=1,
-        Town=2,
-        Field=3
+        None = 0,
+        Lobby = 1,
+
+        //inGame
+        Town = 2,
+        Field = 3
     }
     class GameManager
     {
-        Creature creature = new Creature();
-        GameMode gm = GameMode.Lobby;
+        Player player = null; //이 되야함;
+
+        //Knight knight = null; //이게 아니라...
+        //Archer archer = null;
+        //Mage mage= null;
+        Slime slime = null;
+        Random rand = new Random();
+        GameProcess gm = GameProcess.Lobby;
         public void Process()
         {
             switch (gm)
             {
-                case GameMode.Lobby:
+                case GameProcess.Lobby:
                     Lobby();
                     break;
-                case GameMode.Town:
+                case GameProcess.Town:
                     Town();
                     break;
-                case GameMode.Field:
+                case GameProcess.Field:
                     Field();
                     break;
             }
@@ -45,45 +53,44 @@ namespace TextGame
             {
                 case "1":
                     //기사 생성
-                    Player.Knight knight = new Player.Knight(150,20);
+                    player = new Player.Knight();
                     Console.WriteLine("기사가 생성 되었습니다.");
-                    gm = GameMode.Town;
-                    Console.WriteLine($"체력: {knight.GetHp()} 공격력: {knight.attack}");
+                    gm = GameProcess.Town;
+                    Console.WriteLine($"체력: {player.Hp} 공격력: {player.Attack}");
                     break;
                 case "2":
                     //궁수 생성
-                    Player.Archer archer = new Player.Archer(100, 30);
+                    player = new Player.Archer();
                     Console.WriteLine("궁수가 생성 되었습니다.");
-                    gm = GameMode.Town;
-                    Console.WriteLine($"체력: {archer.GetHp()} 공격력: {archer.attack}");
+                    gm = GameProcess.Town;
+                    Console.WriteLine($"체력: {player.Hp} 공격력: {player.Attack}");
                     break;
                 case "3":
                     //마법사 생성
-                    Player.Mage mage = new Player.Mage(80, 50);
+                    player = new Player.Mage();
                     Console.WriteLine("법사가 생성 되었습니다.");
-                    gm = GameMode.Town;
-                    Console.WriteLine($"체력: {mage.GetHp()} 공격력: {mage.attack}");
+                    gm = GameProcess.Town;
+                    Console.WriteLine($"체력: {player.Hp} 공격력: {player.Attack}");
                     break;
             }
-            
+
         }
         private void Town()
         {
             Console.WriteLine("마을에 입장하셨습니다.");
             Console.WriteLine("[1] 필드 들어가기");
             Console.WriteLine("[2] 로비로 돌아가기");
-            Monster.Slime slime = new Monster.Slime(50, 2);
 
             string input = Console.ReadLine();
 
             switch (input)
             {
                 case "1":
-                    gm = GameMode.Field;
+                    gm = GameProcess.Field;
                     break;
 
                 case "2":
-                    gm = GameMode.Lobby;
+                    gm = GameProcess.Lobby;
                     break;
             }
         }
@@ -92,7 +99,9 @@ namespace TextGame
         {
             Console.WriteLine("필드에 입장하셨습니다.");
             //몬스터 소환
-            Console.WriteLine("... 가 소환 되었습니다.");
+            slime = new Slime();
+
+            Console.WriteLine("몬스터가 소환 되었습니다.");
             Console.WriteLine("[1] 전투!");
             Console.WriteLine("[2] 도망가기");
 
@@ -110,18 +119,44 @@ namespace TextGame
             }
         }
 
-        private void Fight()
+        public void Fight()
         {
             //캐릭터 VS 몬스터
             while (true)
             {
-                
+                int damage = player.Attack;
+                slime.DecreaseHp(damage);
+                if (slime.IsDie())
+                {
+                    Console.WriteLine("몬스터를 처치하였습니다.");
+                    Console.WriteLine($"체력: {player.Hp}");
+                    break;
+                }
+
+                damage = slime.Attack;
+                player.DecreaseHp(damage);
+                if (player.IsDie())
+                {
+                    Console.WriteLine("플레이어가 사망하였습니다.\n");
+                    gm = GameProcess.Lobby;
+                    break;
+                }
+
+                //이후 무한 반복
             }
         }
 
         private void RunAway()
         {
-            gm = GameMode.Town;
+            int randValue = rand.Next(1, 101);
+            if (randValue <= 66)
+            {
+                Fight();
+            }
+            else
+            {
+                gm = GameProcess.Town;
+            }
         }
     }
 }

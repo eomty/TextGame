@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\FakeEyes2\\source\\repos\\TextGame\\TextGame\\TextGame.csproj": {}
+    "C:\\Users\\FakeEyes2\\Desktop\\엄태현 개인폴더\\TextGame\\TextGame\\TextGame.csproj": {}
   },
   "projects": {
-    "C:\\Users\\FakeEyes2\\source\\repos\\TextGame\\TextGame\\TextGame.csproj": {
+    "C:\\Users\\FakeEyes2\\Desktop\\엄태현 개인폴더\\TextGame\\TextGame\\TextGame.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\FakeEyes2\\source\\repos\\TextGame\\TextGame\\TextGame.csproj",
+        "projectUniqueName": "C:\\Users\\FakeEyes2\\Desktop\\엄태현 개인폴더\\TextGame\\TextGame\\TextGame.csproj",
         "projectName": "TextGame",
-        "projectPath": "C:\\Users\\FakeEyes2\\source\\repos\\TextGame\\TextGame\\TextGame.csproj",
+        "projectPath": "C:\\Users\\FakeEyes2\\Desktop\\엄태현 개인폴더\\TextGame\\TextGame\\TextGame.csproj",
         "packagesPath": "C:\\Users\\FakeEyes2\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\FakeEyes2\\source\\repos\\TextGame\\TextGame\\obj\\",
+        "outputPath": "C:\\Users\\FakeEyes2\\Desktop\\엄태현 개인폴더\\TextGame\\TextGame\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\FakeEyes2\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -54,7 +54,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.404\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.405\\RuntimeIdentifierGraph.json"
         }
       }
     }
