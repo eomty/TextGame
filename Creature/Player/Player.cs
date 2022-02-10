@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TextGame
 {
-    class Slime// : NPC
+    class Player// : Character
     {
+
     }
 }

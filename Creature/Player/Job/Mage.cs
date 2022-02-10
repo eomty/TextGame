@@ -4,7 +4,11 @@ using System.Text;
 
 namespace TextGame
 {
-    class Slime// : NPC
+    class Mage : Player
     {
+        public Mage()
+        {
+            //SetInfo(80, 20);
+        }
     }
 }
