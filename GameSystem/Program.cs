@@ -7,7 +7,10 @@ namespace TextGame
         static void Main(string[] args)
         {
             GameManager gm = new GameManager();
-            gm.GameStart();
+            while (true)
+            {
+                gm.GameProcess();
+            }
         }
     }
 }
