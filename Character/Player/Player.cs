@@ -6,26 +6,6 @@ namespace TextGame
 {
     class Player : Character
     {
-        public void Equip()
-        {
-
-        }
-
-        public void Dismount()
-        {
-
-        }
-
-        public void Buy()
-        {
-
-        }
-
-        public void Sell()
-        {
-
-        }
-
         public void LevelUp()
         {
             //Attack_Prop += 3000; //임시
@@ -41,23 +21,22 @@ namespace TextGame
                 Console.WriteLine("레벨업!!");
             }
         }
-        public override int TakeDamage(int damage)
+        public int TakeDamage(int damage, Player player, Monster monster)
         {
             Random rand = new Random();
-            int randValue = rand.Next(1, 101);
-            int randValue2 = rand.Next(1, 101);
-            if (randValue >= Evasion)
+            int playerEvasionValue = rand.Next(1, 101);
+            int randomMonsterCriticalValue = rand.Next(1, 101);
+            if (playerEvasionValue >= player.Evasion)
             {
-                int realDamage = damage - Def;
-                if (randValue2 <= Critical)
+                int realDamage = damage - player.Def;
+                if (randomMonsterCriticalValue <= monster.Critical)
                 {
                     Hp -= realDamage * 2;
-                    Console.WriteLine($"{Critical}%를 뚫고 {realDamage * 2}의 치명적인 데미지를 받았습니다.");
+                    Console.WriteLine($"{monster.Critical}%를 뚫고 {realDamage * 2}의 치명적인 데미지를 받았습니다.");
                 }
                 else
                 {
                     Console.WriteLine($"{realDamage}의 데미지를 받았습니다.");
-
                 }
 
                 Hp -= realDamage;
@@ -67,8 +46,6 @@ namespace TextGame
                 Console.WriteLine("몬스터 공격을 회피 하였습니다.!");
                 return Hp;
             }
-
-
             return Hp;
         }
     }

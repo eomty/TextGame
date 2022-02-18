@@ -13,9 +13,5 @@ namespace TextGame
         public int Critical { get; set; }
         public int Gold { get; set; }
         public int Hp { get; set; }
-
-        public void GetInfo()
-        {
-        }
     }
 }

@@ -4,13 +4,13 @@ using System.Text;
 
 namespace TextGame
 {
-    class Orc : Monster
+    class Boss : Monster
     {
-        public Orc()
+        public Boss()
         {
-            SetInfo(500, 20, 5, 10, 20, 50,20,"Orc");
+            SetInfo(10000, 350, 150, 33, 50, 314159265, 100,"Boss");
         }
-        public void SetInfo(int hp, int attack, int def, int evasion, int critical, int gold,int exp,string name)
+        public void SetInfo(int hp, int attack, int def, int evasion, int critical, int gold, int exp,string name)
         {
             this.Attack_Prop = attack;
             this.Def = def;

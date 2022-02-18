@@ -8,9 +8,9 @@ namespace TextGame
     {
         public Skeleton()
         {
-            SetInfo(2000, 70, 20, 20, 30, 700,35);
+            SetInfo(2000, 70, 20, 20, 30, 700,35,"Skeleton");
         }
-        public void SetInfo(int hp, int attack, int def, int evasion, int critical, int gold,int exp)
+        public void SetInfo(int hp, int attack, int def, int evasion, int critical, int gold,int exp,string name)
         {
             this.Attack_Prop = attack;
             this.Def = def;
@@ -19,6 +19,7 @@ namespace TextGame
             this.Gold = gold;
             this.Hp = hp;
             this.Exp = exp;
+            this.Name = name;
         }
     }
 }
