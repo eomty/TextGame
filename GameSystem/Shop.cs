@@ -9,10 +9,6 @@ namespace TextGame
         public int TempValue = 0;
         public bool temp = false;
 
-        public void Transaction()
-        {
-
-        }
         public void ShowPlayerStat(Player player)
         {
 
