@@ -13,5 +13,8 @@ namespace TextGame
         public int Critical { get; set; }
         public int Gold { get; set; }
         public int Hp { get; set; }
+        public bool PossibleActive { get; set; }
+
+       public bool PossibleBuy { get; set; }
     }
 }
