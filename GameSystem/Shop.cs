@@ -98,7 +98,7 @@ namespace TextGame
             player.Gold = 100000;
             Console.Write("\n");
 
-            Console.WriteLine("사고싶은 장비 번호를 눌러주십시오.\n"); //사면 매진텍스트 띄울 것
+            Console.WriteLine("사고싶은 장비 번호를 눌러주십시오.\n");
             for (int i = 0; i < 6; i++)
             {
                 Console.WriteLine($"[{i + 1}] [{Temps[i].Gold}G] ({Temps[i].ArmorName}) 체력+{Temps[i].Hp} 공격력+{Temps[i].Attack_Prop} 방어력+{Temps[i].Def} 회피율+{Temps[i].Evasion}% 치명타+{Temps[i].Critical}%");

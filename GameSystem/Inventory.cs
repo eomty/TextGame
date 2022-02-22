@@ -19,11 +19,11 @@ namespace TextGame
                 TempitemList++;
             };
 
-            for (int i = 0; i < Temps.Length; i++)
-            {
-                equipmentInventory.Add(InventoryTemps[i]);
-                InventoryTemps[i] = equipmentInventory[i];
-            }
+            //for (int i = 0; i < Temps.Length; i++)
+            //{
+            //    equipmentInventory.Add(InventoryTemps[i]);
+            //    InventoryTemps[i] = equipmentInventory[i];
+            //}
             Console.WriteLine(InventoryTemps);
             Console.Write($"아이템이 인벤토리에 들어왔습니다.");
         }
@@ -36,13 +36,13 @@ namespace TextGame
                 TempEquipList++;
             };
 
-            for (int i = 0; i < Temps.Length; i++)
-            {
-                equipmentSet.Add(EquipTemps[i]);
-                EquipTemps[i] = equipmentSet[i];
-            }
-            Console.WriteLine(EquipTemps);
-            Console.Write($"장착템이 인벤토리에 들어왔습니다.");
+            //for (int i = 0; i < Temps.Length; i++)
+            //{
+            //    equipmentSet.Add(EquipTemps[i]);
+            //    EquipTemps[i] = equipmentSet[i];
+            //}
+            //Console.WriteLine(EquipTemps);
+            //Console.Write($"장착템이 인벤토리에 들어왔습니다.");
         }
 
         public void PrintBuyEquipment()
@@ -82,18 +82,7 @@ namespace TextGame
                     case 2:
                         IncreaseEquipmentStat(player,/*구입한 장비의 값*/InventoryTemps[1].TempInt);
                         break;
-                    case 3:
-                        IncreaseEquipmentStat(player,/*구입한 장비의 값*/InventoryTemps[2].TempInt);
-                        break;
-                    case 4:
-                        IncreaseEquipmentStat(player,/*구입한 장비의 값*/InventoryTemps[3].TempInt);
-                        break;
-                    case 5:
-                        IncreaseEquipmentStat(player,/*구입한 장비의 값*/InventoryTemps[4].TempInt);
-                        break;
-                    case 6:
-                        IncreaseEquipmentStat(player,/*구입한 장비의 값*/InventoryTemps[5].TempInt);
-                        break;
+                   // ......
                 }
             }
             else

@@ -181,7 +181,7 @@ namespace TextGame
         public void IncreaseEquipmentStat(Player player, int itemStat)
         {
             Inventory inventory = new Inventory();
-            if (Temps[itemStat].ActiveWeapon == true && Temps[itemStat].ArmorName.Contains("무기")&&!player.EquipWeapon)
+            if (Temps[itemStat].ActiveWeapon == true && Temps[itemStat].ArmorName.Contains("무기")&&!player.EquipWeapon) //액티브 웨폰 건드려서 작업
             {
                 tempInventory = itemStat;
                 player.Attack_Prop += Temps[itemStat].Attack_Prop;

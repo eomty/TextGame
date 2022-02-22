@@ -8,7 +8,6 @@ namespace TextGame
     {
         public string Name { get; set; }
 
-
         public void Drop(Player player, Monster monster)
         {
             player.Gold += monster.Gold;
