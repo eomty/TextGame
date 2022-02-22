@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TextGame
 {
-    class Weapon: DataManagement
+    class Weapon_X: DataManagement
     {
-        public Weapon()
+        public Weapon_X()
         {
             SetInfo(100, 75, 1, 5, 25, 500,"무난한 무기");
         }

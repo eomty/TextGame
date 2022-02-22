@@ -28,13 +28,10 @@ namespace TextGame
         public bool isMonsterSpawn = false;
         public bool isMonsterNull = false;
         public bool possibleBackShowText = false;
+        private bool townIsSelect = false;
 
         public void GameProcess()
         {
-            //for (int i = 0; i < 2; i++)
-            //{
-            //    Console.WriteLine(startText[i]);
-            //}
             switch (StatePosition)
             {
                 case Position.Lobby:
@@ -74,43 +71,66 @@ namespace TextGame
 
         public void Lobby()
         {
-            Console.WriteLine("번호를 눌러 캐릭터를 생성해주십시오.");
+            Console.WriteLine("번호를 눌러 캐릭터를 생성해주십시오.\n");
             Console.WriteLine("[1] 기사");
             Console.WriteLine("[2] 궁수");
             Console.WriteLine("[3] 마법사");
             PlayerSpawn();
             equipment.Temp();
-            equipment.SetEquipment();
+            //equipment.SetEquipment();
         }
+        
+        public void FixedNumText()
+        {
+            Console.WriteLine("\n적합하지 않은 문자를 적으셨습니다.");
+            Console.WriteLine("범위에 맞는 자연수를 적어주셔야 합니다.\n");
+        }
+
         public void Town()
         {
             Enter();
-            Console.WriteLine("번호를 눌러 행동을 선택해주십시오.");
+            possibleBackShowText = false; //여기서 false를 안해주면 몬스터를 소환해도 행동을 할 수 없다.
             Console.WriteLine("[1] 상점");
             Console.WriteLine("[2] 필드");
-            string input = Console.ReadLine();
-
-            switch (input)
+            while (!townIsSelect)
             {
-                case "1":
-                    StatePosition = Position.Shop;
-                    break;
-                case "2":
-                    StatePosition = Position.Field;
-                    break;
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int result))
+                {
+                    switch (input)
+                    {
+                        case "1":
+                            StatePosition = Position.Shop;
+                            townIsSelect = true;
+                            break;
+                        case "2":
+                            StatePosition = Position.Field;
+                            townIsSelect = true;
+                            break;
+                        default:
+                            FixedNumText();
+                            break;
+                    }
+                }
+                else
+                {
+                    FixedNumText();
+                }
             }
-            possibleBackShowText = false; //여기서 false를 안해주면 몬스터를 소환해도 행동을 할 수 없다.
+            townIsSelect = false;
         }
 
         public void GM_Shop()
         {
             Enter();
             equipment.Temp();
+
             while (true)
             {
-                Console.WriteLine($"플레이어 스탯 정보: {player.Attack_Prop}");
+                Console.WriteLine("원하는 행동을 선택하십시오.\n");
                 Console.WriteLine("1. 장비");
-                Console.WriteLine("2. 스탯보기");
+                Console.WriteLine("2. 플레이어 인벤토리 및 스탯확인");
                 Console.WriteLine("3. 나가기");
                 Console.WriteLine("4. 구걸하기(확률로 랜덤 수치 하락)");
                 Console.WriteLine("5. [20G] 50체력회복");
@@ -137,14 +157,21 @@ namespace TextGame
                             {
                                 player.Gold -= 20;
                                 player.Hp += 50;
-                                Console.WriteLine($"체력50을 회복하였습니다. [현재체력]: {player.Hp}");
+                                Console.WriteLine($"\n체력50을 회복하였습니다. [현재체력]: {player.Hp}\n");
                             }
+                            else
+                            {
+                                Console.WriteLine($"\n골드가 부족합니다.      현재골드: {player.Gold}\n");
+                            }
+                            break;
+                        default:
+                            FixedNumText();
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("1~5의 숫자를 적어주십시오.");
+                    FixedNumText();
                 }
             }
         }
@@ -154,12 +181,13 @@ namespace TextGame
         {
             Enter();
             MonsterSpawn();
-            Console.WriteLine("행동을 선택하십시오.");
+
 
             while (!isMonsterNull && !possibleBackShowText) //true면 작동안함 [나가기와 도망]시 fallBack이 false일 경우  마을가도 공격 도망 텍스트뜸
             {
+                Console.WriteLine("원하는 행동을 선택하십시오.\n");
                 Console.WriteLine("[1] 공격");
-                Console.WriteLine("[2] 도망");
+                Console.WriteLine("[2] 도망\n");
                 string input = Console.ReadLine();
 
                 if (int.TryParse(input, out int result))
@@ -173,13 +201,13 @@ namespace TextGame
                             RunAway();
                             break;
                         default:
-                            Console.WriteLine("1~2의 숫자를 적어주십시오.");
+                            FixedNumText();
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("1~2의 숫자를 적어주십시오.");
+                    FixedNumText();
                 }
 
             }
@@ -211,7 +239,7 @@ namespace TextGame
                     monster.Drop(player, monster);
                     Console.WriteLine(player.Gold);
                 }
-                Console.WriteLine($"ㅡㅡㅡㅡㅡㅡㅡㅡ****몬스터를 처치하였습니다.****ㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+                Console.WriteLine($"ㅡㅡㅡㅡㅡㅡㅡㅡ****몬스터를 처치하였습니다.****ㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
                 player.Exp += monster.Exp;
                 player.LevelUp();
                 monster.Hp = 0;
@@ -225,7 +253,7 @@ namespace TextGame
                 player.TakeDamage(monster.Attack_Prop, player, monster);
 
                 if (player.Hp > 0)
-                    Console.WriteLine($"ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ플레이어 체력: {player.Hp}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ");
+                    Console.WriteLine($"ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ플레이어 체력: {player.Hp}ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ\n");
 
                 if (player.Hp <= 0)
                 {
@@ -242,37 +270,33 @@ namespace TextGame
             while (true)
             {
                 string input = Console.ReadLine();
-
                 if (int.TryParse(input, out int result))
                 {
                     switch (result)
                     {
                         case 1:
-                            //기사 생성
                             player = new Knight();
-                            Console.WriteLine("기사가 생성 되었습니다.");
+                            Console.WriteLine("\n기사가 생성 되었습니다.\n");
                             StatePosition = Position.Town;
                             return;
                         case 2:
-                            //궁수 생성
                             player = new Archer();
-                            Console.WriteLine("궁수가 생성 되었습니다.");
+                            Console.WriteLine("\n궁수가 생성 되었습니다.\n");
                             StatePosition = Position.Town;
                             return;
                         case 3:
-                            //마법사 생성
                             player = new Mage();
-                            Console.WriteLine("법사가 생성 되었습니다.");
+                            Console.WriteLine("\n법사가 생성 되었습니다.\n");
                             StatePosition = Position.Town;
                             return;
                         default:
-                            Console.WriteLine("1~3의 숫자를 적어주십시오.");
+                            FixedNumText();
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("1~3의 숫자를 적어주십시오.");
+                    FixedNumText();
                 }
             }
         }
@@ -280,7 +304,7 @@ namespace TextGame
         public void MonsterSpawn()
         {
             Console.WriteLine("번호를 선택하십시오.");
-            Console.WriteLine("1. 슬라임   2. 오크   3. 스켈레톤   4. 뒤로가기   5. 보스(엄청 쌥니다.) ");
+            Console.WriteLine("1. 슬라임   2. 오크   3. 스켈레톤   4. 뒤로가기   5. 보스(엄청 쌥니다.) \n");
             while (!isMonsterSpawn)  //기본 값 false   true면 작동안함
             {
                 string input = Console.ReadLine();
@@ -291,19 +315,19 @@ namespace TextGame
                     {
                         case "1":
                             monster = new Slime();
-                            Console.WriteLine("슬라임이 생성 되었습니다.");
+                            Console.WriteLine("\n슬라임이 생성 되었습니다.\n");
                             isMonsterSpawn = true;
                             isMonsterNull = false;
                             break;
                         case "2":
                             monster = new Orc();
-                            Console.WriteLine("오크가 생성 되었습니다.");
+                            Console.WriteLine("\n오크가 생성 되었습니다.\n");
                             isMonsterSpawn = true;
                             isMonsterNull = false;
                             break;
                         case "3":
                             monster = new Skeleton();
-                            Console.WriteLine("스켈레톤이 생성 되었습니다.");
+                            Console.WriteLine("\n스켈레톤이 생성 되었습니다.\n");
                             isMonsterSpawn = true;
                             isMonsterNull = false;
                             break;
@@ -314,20 +338,20 @@ namespace TextGame
                             return;
                         case "5":
                             monster = new Boss();
-                            Console.WriteLine("보스가 생성 되었습니다.");
+                            Console.WriteLine("보스가 생성 되었습니다.\n");
                             Console.WriteLine("보스를 처치하시면 승리, 죽으시면 패배입니다.");
                             Console.WriteLine("건투를 빕니다.");
                             isMonsterSpawn = true;
                             isMonsterNull = false;
                             break;
                         default:
-                            Console.WriteLine("[1]슬라임 2[오크] 3[스켈레톤] 4[뒤로가기] 5[보스] 올바른 번호를 적어주십시오.");
+                            FixedNumText();
                             break;
                     }
                 }
                 else
                 {
-                    Console.WriteLine("[1]슬라임 2[오크] 3[스켈레톤] 4[뒤로가기] 5[보스] 올바른 번호를 적어주십시오.");
+                    FixedNumText();
                 }
             }
         }
@@ -366,7 +390,7 @@ namespace TextGame
             if (begValue <= 4)
             {
                 player.Gold += 4;
-                Console.WriteLine("구걸로 [4G]를 얻었습니다.");
+                Console.WriteLine("\n구걸로 [4G]를 얻었습니다.\n");
             }
             else
             {
@@ -401,11 +425,11 @@ namespace TextGame
                         player.Hp -= 1;
                         break;
                     default:
-                        Console.WriteLine("구타를 피하여 스탯하락을 막았습니다.");
+                        Console.WriteLine("\n구타를 피하여 스탯하락을 막았습니다.\n");
                         break;
                 }
                 if (randomMinusStatValue <= 7)
-                    Console.WriteLine($"[{statString[minusStatValue]}] 스탯이 1만큼 하락하였습니다.");
+                    Console.WriteLine($"\n[{statString[minusStatValue]}] 스탯이 1만큼 하락하였습니다.\n");
             }
         }
     }

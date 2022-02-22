@@ -6,6 +6,8 @@ namespace TextGame
 {
     class Player : Character
     {
+        public int Level { get; set; }
+        public string Equipment { get; set; }
         public void LevelUp()
         {
             //Attack_Prop += 3000; //임시
@@ -32,13 +34,12 @@ namespace TextGame
                 if (randomMonsterCriticalValue <= monster.Critical)
                 {
                     Hp -= realDamage * 2;
-                    Console.WriteLine($"{monster.Critical}%를 뚫고 {realDamage * 2}의 치명적인 데미지를 받았습니다.");
+                    Console.WriteLine($"\n{monster.Critical}%를 뚫고 {realDamage * 2}의 치명적인 데미지를 받았습니다.");
                 }
                 else
                 {
-                    Console.WriteLine($"{realDamage}의 데미지를 받았습니다.");
+                    Console.WriteLine($"\n{realDamage}의 데미지를 받았습니다.");
                 }
-
                 Hp -= realDamage;
             }
             else
