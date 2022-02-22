@@ -15,6 +15,12 @@ namespace TextGame
         public int Hp { get; set; }
         public bool PossibleActive { get; set; }
 
-       public bool PossibleBuy { get; set; }
+        public int TempInt { get; set; }
+
+        public bool ActiveHat { get; set; }
+        public bool ActiveArmor { get; set; }
+        public bool ActiveWeapon { get; set; }
+
+        public bool OverLap { get; set; }
     }
 }

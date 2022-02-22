@@ -10,7 +10,9 @@ namespace TextGame
         //public static Equipment[] armor = new Equipment[2];
         //public static Equipment[] weapon = new Equipment[2];
         public static Equipment[] Temps = new Equipment[6];
-
+       public static int tempInventory;
+        public static int tempCount = 0;
+        public static int equipCount = 0;
         public void Temp()
         {
             //List<Equipment> weapon = new List<Equipment>()
@@ -32,7 +34,7 @@ namespace TextGame
                     Critical = 25,
                     Gold = 500,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 0,
                 };
 
                 Temps[1] = new Equipment
@@ -45,7 +47,7 @@ namespace TextGame
                     Critical = 5,
                     Gold = 200,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 1,
                 };
 
                 Temps[2] = new Equipment
@@ -58,7 +60,7 @@ namespace TextGame
                     Critical = 10,
                     Gold = 100,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 2,
                 };
 
                 Temps[3] = new Equipment
@@ -71,7 +73,7 @@ namespace TextGame
                     Critical = 45,
                     Gold = 3900,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 3,
                 };
 
                 Temps[4] = new Equipment
@@ -84,7 +86,7 @@ namespace TextGame
                     Critical = 25,
                     Gold = 2000,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 4,
                 };
 
                 Temps[5] = new Equipment
@@ -97,7 +99,7 @@ namespace TextGame
                     Critical = 30,
                     Gold = 1100,
                     PossibleActive = true,
-                    PossibleBuy = true,
+                    TempInt = 5,
                 };
 
                 for (int i = 0; i < Temps.Length; i++)
@@ -116,44 +118,118 @@ namespace TextGame
         //    armor[1] = Temps[4];
         //    weapon[1] = Temps[5];
         //}
-        public void SetItemInventory(int itemStat)
+        public void SetItemInventory(Player player,int itemStat)
         {
+             tempCount++;
             Inventory inventory = new Inventory();
-            int tempInventory = itemStat;
-            inventory.ItemSet(Temps, tempInventory);
+            TempInt = itemStat;
+            tempInventory = itemStat;
+            Temps[itemStat].PossibleActive = false;
 
+            if (player.Equipment.Contains("투구"))
+                Temps[itemStat].ActiveHat = true;
+            
+
+            if (player.Equipment.Contains("조끼"))
+                Temps[itemStat].ActiveArmor = true;
+
+
+            if (player.Equipment.Contains("무기"))
+                Temps[itemStat].ActiveWeapon = true;
+
+
+            inventory.ItemSet(Temps, tempInventory);
         }
-        public void DecreaseEquipmentStat(Player player)
+        public void DecreaseEquipmentStat(Player player, int itemStat)
         {
-            if (player.Equipment == Temps[0].ArmorName && !Temps[0].PossibleActive) //장비탭에서 해제를 하면.
+            if (Temps[itemStat].ActiveWeapon == true && Temps[itemStat].ArmorName.Contains("무기") && !Temps[itemStat].PossibleActive && Temps[itemStat].OverLap ==true) //장비탭에서 해제를 하면.
             {
-                player.Attack_Prop -= Temps[0].Attack_Prop;
-                player.Hp -= Temps[0].Hp;
-                player.Def -= Temps[0].Def;
-                player.Evasion -= Temps[0].Evasion;
-                player.Critical -= Temps[0].Critical;
-                Console.WriteLine("투구 해제");
-                player.Equipment = string.Empty;//인벤토리 클라스에서 관리해야 될 것 같다.
+                player.Attack_Prop -= Temps[itemStat].Attack_Prop;
+                player.Hp -= Temps[itemStat].Hp;
+                player.Def -= Temps[itemStat].Def;
+                player.Evasion -= Temps[itemStat].Evasion;
+                player.Critical -= Temps[itemStat].Critical;
+                Temps[itemStat].OverLap = false;
+                Console.WriteLine($"{Temps[itemStat].ArmorName} 적용 해제\n");
             }
-            else
+
+            if (Temps[itemStat].ActiveArmor == true && Temps[itemStat].ArmorName.Contains("조끼") && !Temps[itemStat].PossibleActive && Temps[itemStat].OverLap == true) //장비탭에서 해제를 하면.
             {
-                Console.WriteLine("장비를 장착하고 있지 않습니다.\n");
+                player.Attack_Prop -= Temps[itemStat].Attack_Prop;
+                player.Hp -= Temps[itemStat].Hp;
+                player.Def -= Temps[itemStat].Def;
+                player.Evasion -= Temps[itemStat].Evasion;
+                player.Critical -= Temps[itemStat].Critical;
+                Temps[itemStat].OverLap = false;
+                Console.WriteLine($"{Temps[itemStat].ArmorName} 적용 해제\n");
+            }
+
+            if (Temps[itemStat].ActiveHat == true && Temps[itemStat].ArmorName.Contains("투구") && !Temps[itemStat].PossibleActive && Temps[itemStat].OverLap == true) //장비탭에서 해제를 하면.
+            {
+                player.Attack_Prop -= Temps[itemStat].Attack_Prop;
+                player.Hp -= Temps[itemStat].Hp;
+                player.Def -= Temps[itemStat].Def;
+                player.Evasion -= Temps[itemStat].Evasion;
+                player.Critical -= Temps[itemStat].Critical;
+                Temps[itemStat].OverLap = false;
+                Console.WriteLine($"{Temps[itemStat].ArmorName} 적용 해제\n");
             }
         }
+
+
 
         public void IncreaseEquipmentStat(Player player, int itemStat)
         {
-            if (player.Equipment.Contains($"{Temps[itemStat].ArmorName}"))
+            Inventory inventory = new Inventory();
+            if (Temps[itemStat].ActiveWeapon == true && Temps[itemStat].ArmorName.Contains("무기")&&!player.EquipWeapon)
             {
-                Console.WriteLine(Temps[itemStat].ArmorName + "구매 완료");
+                tempInventory = itemStat;
+                player.Attack_Prop += Temps[itemStat].Attack_Prop;
+                player.Hp += Temps[itemStat].Hp;
+                player.Def += Temps[itemStat].Def;
+                player.Evasion += Temps[itemStat].Evasion;
+                player.Critical += Temps[itemStat].Critical;
+                Temps[itemStat].PossibleActive = false; //못건드려
+                Temps[itemStat].OverLap = true; //건들 수 있음.
+                player.EquipWeapon = true;
+                equipCount++;
+                inventory.EquipmentSet(Temps, tempInventory);
+                Console.WriteLine($"{Temps[itemStat].ArmorName} 적용\n");
+            }
+            if (Temps[itemStat].ActiveArmor == true && Temps[itemStat].ArmorName.Contains("조끼") && !player.EquipArmor)
+            {
+                tempInventory = itemStat;
                 player.Attack_Prop += Temps[itemStat].Attack_Prop;
                 player.Hp += Temps[itemStat].Hp;
                 player.Def += Temps[itemStat].Def;
                 player.Evasion += Temps[itemStat].Evasion;
                 player.Critical += Temps[itemStat].Critical;
                 Temps[itemStat].PossibleActive = false;
+                Temps[itemStat].OverLap = true;
+                player.EquipArmor = true;
+                equipCount++;
+                inventory.EquipmentSet(Temps, tempInventory);
                 Console.WriteLine($"{Temps[itemStat].ArmorName} 적용\n");
             }
+            if (Temps[itemStat].ActiveHat == true && Temps[itemStat].ArmorName.Contains("투구") && !player.EquipHat)
+            {
+                tempInventory = itemStat;
+                player.Attack_Prop += Temps[itemStat].Attack_Prop;
+                player.Hp += Temps[itemStat].Hp;
+                player.Def += Temps[itemStat].Def;
+                player.Evasion += Temps[itemStat].Evasion;
+                player.Critical += Temps[itemStat].Critical;
+                Temps[itemStat].PossibleActive = false;
+                Temps[itemStat].OverLap = true;
+                player.EquipHat = true;
+                equipCount++;
+                inventory.EquipmentSet(Temps, tempInventory);
+                Console.WriteLine($"{Temps[itemStat].ArmorName} 적용\n");
+            }
+            //else if (Temps[itemStat].ActiveHat == false)
+            //{
+            //    Console.WriteLine("보유하신 투구가 없습니다.");
+            //}
         }
     }
 }

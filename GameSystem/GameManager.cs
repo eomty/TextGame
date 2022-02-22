@@ -130,7 +130,7 @@ namespace TextGame
             {
                 Console.WriteLine("원하는 행동을 선택하십시오.");
                 Console.WriteLine("\n1. 장비");
-                Console.WriteLine("2. 스탯보기");
+                Console.WriteLine("2. 플레이어 인벤토리 및 스탯확인");
                 Console.WriteLine("3. 나가기");
                 Console.WriteLine("4. 구걸하기(확률로 랜덤 수치 하락)");
                 Console.WriteLine("5. [20G] 50체력회복");

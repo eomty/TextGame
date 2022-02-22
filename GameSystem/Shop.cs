@@ -6,27 +6,103 @@ namespace TextGame
 {
     class Shop : Equipment
     {
-        public int TempValue = 0;
+        public int inventoryListValue = 0;
         public bool temp = false;
         Equipment equipment = new Equipment();
+        Inventory inventory = new Inventory();
 
         public void ShowPlayerStat(Player player)
         {
+            while (true)
+            {
+                Console.WriteLine("원하는 행동을 선택하십시오.\n");
+                Console.WriteLine("1. 인벤토리 및 장비확인");
+                Console.WriteLine("2. 스탯확인");
+                Console.WriteLine("3. 나가기");
+                string input = Console.ReadLine();
 
-            Console.WriteLine($"\n골드:{player.Gold} 체력:{player.Hp} 공격력:{player.Attack_Prop} 방어력:{player.Def} 회피율:{player.Evasion}% 치명타:{player.Critical}%\n");
+                if (int.TryParse(input, out int result))
+                {
+                    switch (result)
+                    {
+                        case 1:
+                            PlayerInventoryEquipment(player);
+                            //equipment.IncreaseEquipmentStat(player, Equipment.tempInventory);
+                            break;
+                        case 2:
+                            Console.WriteLine($"\n골드:{player.Gold} 체력:{player.Hp} 공격력:{player.Attack_Prop} 방어력:{player.Def} 회피율:{player.Evasion}% 치명타:{player.Critical}%\n");
+                            break;
+                        case 3:
+                            return;
+                        default:
+                            Console.WriteLine("\n적합하지 않은 문자를 적으셨습니다.");
+                            Console.WriteLine("범위에 맞는 자연수를 적어주셔야 합니다.\n");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("\n적합하지 않은 문자를 적으셨습니다.");
+                    Console.WriteLine("범위에 맞는 자연수를 적어주셔야 합니다.\n");
+                }
+            }
+
+        }
+
+        private void PlayerInventoryEquipment(Player player)
+        {
+            while (true)
+            {
+                {
+                    Console.WriteLine("원하는 행동을 선택하십시오.\n");
+                    Console.WriteLine("1. 인벤토리");
+                    Console.WriteLine("2. 장비 장착");
+                    Console.WriteLine("3. 장비 해제");
+                    Console.WriteLine("4. 나가기");
+
+                    string input = Console.ReadLine();
+
+                    if (int.TryParse(input, out int result))
+                    {
+                        switch (result)
+                        {
+                            case 1:
+                                inventory.PrintBuyEquipment();
+                                break;
+                            case 2:
+                                inventory.PlayerEquipment(player);
+                                break; ;
+                            case 3:
+                                inventory.PlayerDismount(player);
+                                break; ;
+                            case 4:
+                                return;
+                            default:
+                                Console.WriteLine("\n적합하지 않은 문자를 적으셨습니다.");
+                                Console.WriteLine("범위에 맞는 자연수를 적어주셔야 합니다.\n");
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n적합하지 않은 문자를 적으셨습니다.");
+                        Console.WriteLine("범위에 맞는 자연수를 적어주셔야 합니다.\n");
+                    }
+                }
+
+            }
         }
 
         public void EquipMent(Player player)
         {
             player.Gold = 100000;
             Console.Write("\n");
+
             Console.WriteLine("사고싶은 장비 번호를 눌러주십시오.\n"); //사면 매진텍스트 띄울 것
-            Console.WriteLine($"1. [{Temps[0].Gold}G] ({Temps[0].ArmorName}) 체력+{Temps[0].Hp} 공격력+{Temps[0].Attack_Prop} 방어력+{Temps[0].Def} 회피율+{Temps[0].Evasion}% 치명타+{Temps[0].Critical}%");
-            Console.WriteLine($"2. [{Temps[1].Gold}G] ({Temps[1].ArmorName}) 체력+{Temps[1].Hp} 공격력+{Temps[1].Attack_Prop} 방어력+{Temps[1].Def} 회피율+{Temps[1].Evasion}% 치명타+{Temps[1].Critical}%");
-            Console.WriteLine($"3. [{Temps[2].Gold}G] ({Temps[2].ArmorName}) 체력+{Temps[2].Hp} 공격력+{Temps[2].Attack_Prop} 방어력+{Temps[2].Def} 회피율+{Temps[2].Evasion}% 치명타+{Temps[2].Critical}%\n");
-            Console.WriteLine($"4. [{Temps[3].Gold}G] ({Temps[3].ArmorName}) 체력+{Temps[3].Hp} 공격력+{Temps[3].Attack_Prop} 방어력+{Temps[3].Def} 회피율+{Temps[3].Evasion}% 치명타+{Temps[3].Critical}%");
-            Console.WriteLine($"5. [{Temps[4].Gold}G] ({Temps[4].ArmorName}) 체력+{Temps[4].Hp} 공격력+{Temps[4].Attack_Prop} 방어력+{Temps[4].Def} 회피율+{Temps[4].Evasion}% 치명타+{Temps[4].Critical}%");
-            Console.WriteLine($"6. [{Temps[5].Gold}G] ({Temps[5].ArmorName}) 체력+{Temps[5].Hp} 공격력+{Temps[5].Attack_Prop} 방어력+{Temps[5].Def} 회피율+{Temps[5].Evasion}% 치명타+{Temps[5].Critical}%\n");
+            for (int i = 0; i < 6; i++)
+            {
+                Console.WriteLine($"[{i + 1}] [{Temps[i].Gold}G] ({Temps[i].ArmorName}) 체력+{Temps[i].Hp} 공격력+{Temps[i].Attack_Prop} 방어력+{Temps[i].Def} 회피율+{Temps[i].Evasion}% 치명타+{Temps[i].Critical}%");
+            }
             Console.WriteLine("7. 뒤로가기\n");
             while (true)
             {
@@ -43,10 +119,8 @@ namespace TextGame
                                 {
                                     player.Gold -= Temps[0].Gold;
                                     player.Equipment = Temps[0].ArmorName;
-                                   equipment.SetItemInventory(0);
-                                    //equipment.IncreaseEquipmentStat(player, 0);
-
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player,0);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
@@ -60,9 +134,10 @@ namespace TextGame
                             {
                                 if (player.Gold >= Temps[1].Gold)
                                 {
+                                    player.Gold -= Temps[1].Gold;
                                     player.Equipment = Temps[1].ArmorName;
-                                    equipment.IncreaseEquipmentStat(player, 1);
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player, 1);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
@@ -75,9 +150,10 @@ namespace TextGame
                             {
                                 if (player.Gold >= Temps[2].Gold)
                                 {
+                                    player.Gold -= Temps[2].Gold;
                                     player.Equipment = Temps[2].ArmorName;
-                                    equipment.IncreaseEquipmentStat(player, 2);
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player, 2);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
@@ -90,9 +166,10 @@ namespace TextGame
                             {
                                 if (player.Gold >= Temps[3].Gold)
                                 {
+                                    player.Gold -= Temps[3].Gold;
                                     player.Equipment = Temps[3].ArmorName;
-                                    equipment.IncreaseEquipmentStat(player, 3);
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player, 3);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
@@ -105,9 +182,10 @@ namespace TextGame
                             {
                                 if (player.Gold >= Temps[4].Gold)
                                 {
+                                    player.Gold -= Temps[4].Gold;
                                     player.Equipment = Temps[4].ArmorName;
-                                    equipment.IncreaseEquipmentStat(player,4);
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player, 4);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
@@ -120,9 +198,10 @@ namespace TextGame
                             {
                                 if (player.Gold >= Temps[5].Gold)
                                 {
+                                    player.Gold -= Temps[5].Gold;
                                     player.Equipment = Temps[5].ArmorName;
-                                    equipment.IncreaseEquipmentStat(player, 5);
-                                    // Temps[itemStat].PossibleActive = false;
+                                    equipment.SetItemInventory(player, 5);
+                                    inventoryListValue += 1;
                                 }
                                 else
                                     Console.WriteLine("골드가 부족합니다 ㅠㅠ");
